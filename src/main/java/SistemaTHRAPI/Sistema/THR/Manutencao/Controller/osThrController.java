@@ -23,7 +23,7 @@ import SistemaTHRAPI.Sistema.THR.Manutencao.Service.osThrService;
 
 
 @RestController
-@CrossOrigin(origins = "https://app-thr.herokuapp.com")
+@CrossOrigin(origins = "https://app-thr.herokuapp.com/maintenance")
 
 @RequestMapping("/Ordem-Servico")
 
