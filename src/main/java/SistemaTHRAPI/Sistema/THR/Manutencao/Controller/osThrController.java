@@ -23,7 +23,7 @@ import SistemaTHRAPI.Sistema.THR.Manutencao.Service.osThrService;
 
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200/maintenance")
+@CrossOrigin(origins = "http://localhost:4200")
 
 @RequestMapping("/Ordem-Servico")
 
