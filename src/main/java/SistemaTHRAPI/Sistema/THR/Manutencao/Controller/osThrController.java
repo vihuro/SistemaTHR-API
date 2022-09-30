@@ -21,60 +21,58 @@ import SistemaTHRAPI.Sistema.THR.Manutencao.Model.osThrModel;
 import SistemaTHRAPI.Sistema.THR.Manutencao.Repository.IOsThrRepository;
 import SistemaTHRAPI.Sistema.THR.Manutencao.Service.osThrService;
 
-
 @RestController
-@CrossOrigin(origins = "http://app-thr.herokuapp.com")
+@CrossOrigin(origins = "http://localhost:4200")
 
 @RequestMapping("/Ordem-Servico")
 
 public class osThrController {
-	
-	
-	@Autowired
-	 public IOsThrRepository repository;
-	
+
+	public IOsThrRepository repository;
+
 	@Autowired
 	public osThrService service;
-	
-	
+
 	@GetMapping
-	private List<osThrModel> findAll(){
-		return repository.findAll();
+	private List<osThrDto> findAll() {
+		return service.findAll();
 	}
-	
-	
+
 	@GetMapping("/{numeroOS}")
-	private List<osThrModel>findByNumeroOS(@PathVariable("numeroOS")Integer numero){
+	private List<osThrModel> findByNumeroOS(@PathVariable("numeroOS") Integer numero) {
+
 		return repository.findByNumeroOS(numero);
-		  
 	}
-	
+
 	@PostMapping
-	private void save(@RequestBody osThrDto dto) {
-	
-		service.save(dto);
+	private osThrDto save(@RequestBody osThrDto dto) {
+
+		return service.save(dto);
+
 	}
-	
+
 	@PutMapping("/{numeroOS}")
-	private ResponseEntity<Object> updateOS(@PathVariable (value = "numeroOS")Integer numeroOs,@RequestBody osThrDto dto) {
-		
+	private ResponseEntity<String> updateOS(@PathVariable(value = "numeroOS") Integer numeroOs,
+			@RequestBody osThrDto dto) {
+
 		Optional<osThrModel> option = repository.findById(numeroOs);
-		if(!option.isPresent()) {
+		if (!option.isPresent()) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Ordem de serviço não encontrada");
 		}
-		
+
 		service.savePrioridade(numeroOs, dto);
+		int a = 30;
 		return ResponseEntity.status(HttpStatus.OK).body("Prioridade lançada com sucesso!");
 	}
-	
+
 	@DeleteMapping("/{numeroOs}")
 	private void deleteOS(@PathVariable("numeroOs") osThrDto dto) {
 		service.delete(dto);
 	}
-	
+
 	@DeleteMapping
 	private void deleteAll() {
 		service.deleteAll();
 	}
-	
+
 }
